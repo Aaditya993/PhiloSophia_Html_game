@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PhiloSophia Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800&family=Caveat:wght@700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  
+  <div class="bg">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+ 
+  <div id="confetti"></div>
+
+ 
+  <div class="combo-toast" id="comboToast">🔥 Combo x<span id="comboNum">2</span>!</div>
+
+  <div class="app">
+
+   
+    <div class="screen active" id="startScreen">
+      <div class="card start-card">
+
+       
+        <div class="mascot-wrap">
+          <span class="crown">👑</span>
+          <div class="mascot">🧠</div>
+          
+        </div>
+
+        <h1 class="logo-title">PhiloSophia</h1>
+        <p class="logo-sub">The Great Minds Challenge</p>
+        <p class="start-desc">Test your wisdom across Western, Indian &amp; Chinese philosophy!</p>
+
+       
+        <div class="pill-row" id="catRow">
+          <span class="pill active" data-cat="all">🌍 All</span>
+          <span class="pill" data-cat="western">🏛️ Western</span>
+          <span class="pill" data-cat="indian">🪷 Indian</span>
+          <span class="pill" data-cat="chinese">🀄 Chinese</span>
+          <span class="pill" data-cat="identify">🔍 Identify</span>
+          <span class="pill" data-cat="ethics">⚖️ Ethics</span>
+          <span class="pill" data-cat="metaphysics">🌌 Metaphysics</span>
+        </div>
+
+      
+        <p class="section-label">Choose Difficulty</p>
+        <div class="diff-row" id="diffRow">
+          <button class="diff easy"   data-diff="easy">🌱 Easy</button>
+          <button class="diff medium active" data-diff="medium">⚡ Medium</button>
+          <button class="diff hard"   data-diff="hard">🔥 Hard</button>
+        </div>
+
+        <button class="btn-start" id="startBtn">Begin the Quest 🚀</button>
+      </div>
+    </div>
+
+
+ 
+    <div class="screen" id="gameScreen">
+      <div class="card game-card">
+
+        
+        <div class="hud">
+          <div class="hud-box">
+            <span class="hud-label">Score</span>
+            <span class="hud-val" id="scoreVal">0</span>
+          </div>
+
+      
+          <div class="streak-wrap">
+            <span class="hud-label">Streak</span>
+            <div class="dots">
+              <span class="dot" id="d0"></span>
+              <span class="dot" id="d1"></span>
+              <span class="dot" id="d2"></span>
+              <span class="dot" id="d3"></span>
+              <span class="dot" id="d4"></span>
+            </div>
+          </div>
+
+          
+          <div class="timer-ring">
+            <svg viewBox="0 0 48 48">
+              <circle class="ring-bg"   cx="24" cy="24" r="20"/>
+              <circle class="ring-fill" cx="24" cy="24" r="20" id="ringCircle"/>
+            </svg>
+            <span class="timer-num" id="timerNum">30</span>
+          </div>
+        </div>
+
+       
+        <div class="prog-wrap">
+          <span id="progLabel">Q1 of 10</span>
+          <span id="progPct">0%</span>
+        </div>
+        <div class="prog-track">
+          <div class="prog-fill" id="progFill" style="width:0%"></div>
+        </div>
+
+        
+        <div class="phil-card hidden" id="philCard">
+          <div class="phil-img-wrap" id="philImgWrap">
+           
+          </div>
+          <div class="phil-info">
+            <span class="phil-tag">🔍 Identify the Philosopher</span>
+            <p class="phil-hint" id="philHint">Era hint goes here</p>
+          </div>
+        </div>
+
+        <!-- Question area -->
+        <div class="q-body">
+          <div class="badge-row">
+            <span class="badge purple" id="qNum">📚 Q1</span>
+            <span class="badge yellow" id="qCat">🌍 Philosophy</span>
+          </div>
+          <p class="q-text" id="qText">Loading...</p>
+        </div>
+
+        <!-- Answer options — JS fills this grid -->
+        <div class="options" id="options"></div>
+
+       
+        <div class="feedback hidden" id="feedback">
+          <span class="fb-emoji" id="fbEmoji">🎉</span>
+          <div>
+            <p class="fb-title" id="fbTitle">Correct!</p>
+            <p class="fb-sub"   id="fbSub">+100 pts</p>
+          </div>
+        </div>
+
+        <!-- Next / Results button -->
+        <button class="btn-next hidden" id="nextBtn">Next Question →</button>
+
+      </div>
+    </div>
+
+
+    
+         <!-- SCREEN 3 — GAME OVER -->
+   
+    <div class="screen" id="overScreen">
+      <div class="card over-card">
+
+        <!-- Trophy hero area -->
+        <div class="over-hero">
+          <span class="trophy" id="trophyIcon">🏆</span>
+          <h2 class="over-title" id="overTitle">Quest Complete!</h2>
+          <p  class="over-sub"   id="overSub">You've walked with the great minds</p>
+        </div>
+
+        <!-- Stats grid -->
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-num" id="stScore">0</span>
+            <span class="stat-lbl">Score</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" id="stCorrect">0/10</span>
+            <span class="stat-lbl">Correct</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" id="stAcc">0%</span>
+            <span class="stat-lbl">Accuracy</span>
+          </div>
+        </div>
+
+        <!-- Rank banner -->
+        <div class="rank-banner">
+          <span class="rank-emoji" id="rankEmoji">🌟</span>
+          <div>
+            <p class="rank-title" id="rankTitle">Philosopher</p>
+            <p class="rank-desc"  id="rankDesc">Keep exploring!</p>
+          </div>
+        </div>
+
+       
+        <div class="review-wrap">
+          <p class="review-heading">📝 Your Answers</p>
+          <div id="reviewList"></div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="over-btns">
+          <button class="btn-again" id="againBtn">🔄 Play Again</button>
+          <button class="btn-home"  id="homeBtn">🏠 Home</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- .app -->
+
+  <script src="script.js"></script>
+</body>
+</html>
