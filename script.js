@@ -1,759 +1,727 @@
-// ============================================================
-//  PhiloSophia Quiz — script.js
-//  Simple & readable JavaScript
-// ============================================================
 
 
-// ============================================================
-//  QUESTION BANK
-//  Each question is an object with these fields:
-//    cat        — category: western / indian / chinese / identify / ethics / metaphysics
-//    difficulty — easy / medium / hard
-//    question   — the question text
-//    options    — array of 4 answer choices
-//    answer     — index of correct answer (0,1,2,3)
-//    explanation— short fact shown after answering
-//
-//  For "identify" type questions you also add:
-//    type           — set to "identify"
-//    emoji          — fallback emoji shown in the circle (e.g. "🏛️")
-//    hint           — era / clue text shown under the photo
-//    imageSrc       — PATH TO YOUR IMAGE (see instructions below)
-//
-// ── HOW TO ADD PHILOSOPHER IMAGES ──────────────────────────
-//  1. Create a folder called  images/  next to index.html
-//  2. Save your image there   e.g.  images/socrates.jpg
-//  3. On the question below, uncomment the imageSrc line
-//     and change the filename to match your image.
-//  The image will appear inside the round circle card
-//  automatically when that question loads!
-// ────────────────────────────────────────────────────────────
+const ALL_QUESTIONS = [
 
-var questions = [
+  
+  // WESTERN PHILOSOPHY
 
-  // ── WESTERN ──────────────────────────────────────
   {
     cat: "western", difficulty: "easy",
     question: "Who is considered the 'Father of Western Philosophy'?",
     options: ["Plato", "Socrates", "Aristotle", "Pythagoras"],
     answer: 1,
-    explanation: "Socrates (470–399 BC) pioneered the method of questioning known as the Socratic method."
+    explanation: "Socrates (470–399 BC) pioneered the Socratic method and is the foundational figure of Western thought."
   },
   {
     cat: "western", difficulty: "easy",
-    question: "Plato's book containing the 'Allegory of the Cave' is called:",
+    question: "Plato's most famous work that contains the 'Allegory of the Cave' is called:",
     options: ["Nicomachean Ethics", "The Republic", "Meditations", "Symposium"],
     answer: 1,
-    explanation: "The Republic (380 BC) uses the cave allegory to explain Plato's theory of knowledge."
+    explanation: "The Republic (c. 380 BC) contains the famous allegory in Book VII, illustrating the nature of reality."
   },
   {
     cat: "western", difficulty: "medium",
-    question: "'Cogito, ergo sum' (I think, therefore I am) was said by:",
-    options: ["Kant", "Hume", "Descartes", "Locke"],
-    answer: 2,
-    explanation: "Descartes wrote this in 'Discourse on the Method' (1637) — the foundation of Western rationalism."
+    question: "René Descartes' declaration 'Cogito, ergo sum' translates to:",
+    options: ["I doubt, therefore I exist", "I think, therefore I am", "I feel, therefore I live", "I know, therefore I wonder"],
+    answer: 1,
+    explanation: "The phrase from 'Discourse on the Method' (1637) is the foundational element of Western rationalism."
   },
   {
     cat: "western", difficulty: "medium",
-    question: "Kant's moral principle that says act only by rules you'd want everyone to follow is called:",
+    question: "Immanuel Kant's moral principle requiring acting only according to universal laws is called the:",
     options: ["Categorical Imperative", "Veil of Ignorance", "Utilitarian Calculus", "Golden Rule"],
     answer: 0,
-    explanation: "The Categorical Imperative (1785) is Kant's central ethical principle."
+    explanation: "The Categorical Imperative from 'Groundwork of the Metaphysics of Morals' (1785) is Kant's central ethical principle."
   },
   {
     cat: "western", difficulty: "hard",
-    question: "Nietzsche introduced the concept of the 'Übermensch' in which book?",
+    question: "Nietzsche's concept of the 'Übermensch' was introduced in which work?",
     options: ["Beyond Good and Evil", "The Birth of Tragedy", "Thus Spoke Zarathustra", "The Will to Power"],
     answer: 2,
-    explanation: "Thus Spoke Zarathustra (1883) introduced the Übermensch as the next step for humanity."
+    explanation: "Thus Spoke Zarathustra (1883–85) introduced the Übermensch as the goal humanity should set for itself."
+  },
+  {
+    cat: "western", difficulty: "hard",
+    question: "The 'Ship of Theseus' paradox primarily explores the concept of:",
+    options: ["Temporal logic", "Personal identity and persistence", "Free will vs determinism", "The nature of causality"],
+    answer: 1,
+    explanation: "The paradox questions what makes an object 'the same object' over time — fundamental to identity philosophy."
   },
   {
     cat: "western", difficulty: "medium",
-    question: "Which philosopher said 'existence precedes essence'?",
-    options: ["Camus", "Heidegger", "Sartre", "de Beauvoir"],
+    question: "Which philosopher argued that 'existence precedes essence'?",
+    options: ["Albert Camus", "Martin Heidegger", "Jean-Paul Sartre", "Simone de Beauvoir"],
     answer: 2,
-    explanation: "Sartre's existentialism: humans exist first, then create their own meaning."
+    explanation: "Sartre's existentialist position holds that humans first exist and then define themselves through choices."
   },
   {
     cat: "western", difficulty: "easy",
-    question: "John Locke called the mind at birth a blank slate, or:",
+    question: "John Locke described the mind at birth as a blank slate, or:",
     options: ["Tabula Rasa", "A Priori", "Res Cogitans", "Eudaimonia"],
     answer: 0,
-    explanation: "Locke's 'Tabula Rasa' — we are shaped entirely by our experiences."
+    explanation: "Tabula Rasa ('blank slate') is central to Locke's empiricist theory in 'An Essay Concerning Human Understanding'."
   },
 
-  // ── INDIAN ───────────────────────────────────────
+
+  // INDIAN PHILOSOPHY  
+
   {
     cat: "indian", difficulty: "easy",
-    question: "The concept of 'Dharma' in Hinduism means:",
-    options: ["Cosmic order and duty", "Cycle of rebirth", "Ultimate liberation", "Sacred texts"],
+    question: "The concept of 'Dharma' in Hinduism primarily refers to:",
+    options: ["Cosmic order and moral duty", "The cycle of rebirth", "Ultimate liberation", "Sacred texts"],
     answer: 0,
-    explanation: "Dharma covers moral duty, righteousness, and cosmic order in Hindu philosophy."
+    explanation: "Dharma encompasses cosmic order, righteousness, and one's moral duty in Hindu philosophy."
   },
   {
     cat: "indian", difficulty: "medium",
-    question: "Buddhism's Four Noble Truths begin with the recognition of:",
-    options: ["Impermanence", "Suffering (Dukkha)", "No-self", "Nirvana"],
+    question: "Buddhism's 'Four Noble Truths' begin with the recognition of:",
+    options: ["Impermanence (Anicca)", "Suffering (Dukkha)", "No-self (Anatta)", "Nirvana"],
     answer: 1,
-    explanation: "The First Noble Truth: life contains Dukkha (suffering/dissatisfaction)."
+    explanation: "The First Noble Truth identifies Dukkha (suffering/unsatisfactoriness) as an intrinsic part of existence."
+  },
+  {
+    cat: "indian", difficulty: "hard",
+    question: "Nagarjuna's philosophical concept of 'Śūnyatā' (Emptiness) means that all phenomena:",
+    options: ["Do not exist at all", "Lack inherent independent existence", "Are illusions of the mind", "Exist eternally unchanged"],
+    answer: 1,
+    explanation: "Śūnyatā doesn't mean nothingness — it means phenomena arise dependently and lack intrinsic essence."
   },
   {
     cat: "indian", difficulty: "medium",
-    question: "Adi Shankaracharya taught that Brahman and Atman (soul and universe) are:",
+    question: "In Advaita Vedanta, Adi Shankaracharya's central teaching is that Brahman and Atman are:",
     options: ["Entirely separate", "Identical — non-dual", "Complementary opposites", "Unknowable"],
     answer: 1,
-    explanation: "Advaita Vedanta: 'non-duality' — the individual soul and ultimate reality are one."
+    explanation: "Advaita ('non-duality') holds that the individual soul (Atman) and ultimate reality (Brahman) are one and the same."
   },
   {
     cat: "indian", difficulty: "easy",
-    question: "The Yoga Sutras, the classical yoga philosophy text, were written by:",
+    question: "The 'Yoga Sutras', the classical text on yoga philosophy, were composed by:",
     options: ["Valmiki", "Patanjali", "Vyasa", "Nagarjuna"],
     answer: 1,
-    explanation: "Patanjali compiled the Yoga Sutras (~400 CE), systematizing yoga philosophy."
+    explanation: "Patanjali compiled the Yoga Sutras (~400 CE), systematizing the philosophy and practice of yoga."
   },
   {
     cat: "indian", difficulty: "hard",
-    question: "Jainism's supreme ethical principle of 'Ahimsa' means:",
-    options: ["Non-attachment", "Non-violence to all beings", "Truthfulness", "Self-discipline"],
+    question: "Jainism's core ethical principle of 'Ahimsa' means:",
+    options: ["Non-attachment", "Non-violence towards all living beings", "Truthfulness", "Self-discipline"],
     answer: 1,
-    explanation: "Ahimsa (non-violence) is central to Jainism and later influenced Gandhi."
+    explanation: "Ahimsa (non-violence) is the supreme Jain ethical principle — it influenced Mahatma Gandhi's philosophy."
   },
   {
-    cat: "indian", difficulty: "hard",
-    question: "Nagarjuna's concept of 'Śūnyatā' (Emptiness) means all things:",
-    options: ["Do not exist", "Lack independent existence", "Are mind-created illusions", "Exist forever"],
+    cat: "indian", difficulty: "medium",
+    question: "The Upanishads are primarily concerned with:",
+    options: ["Ritual sacrifices", "The nature of Brahman and Atman", "Political governance", "Grammar and linguistics"],
     answer: 1,
-    explanation: "Sunyata: things arise interdependently and have no fixed, inherent essence."
+    explanation: "The Upanishads (800–200 BCE) are philosophical texts exploring the relationship between the individual soul and ultimate reality."
   },
 
-  // ── CHINESE ──────────────────────────────────────
+  
+  // CHINESE PHILOSOPHY  
+ 
   {
     cat: "chinese", difficulty: "easy",
-    question: "The Tao Te Ching, the foundational Taoist text, was written by:",
+    question: "The Tao Te Ching, the foundational text of Taoism, was written by:",
     options: ["Confucius", "Mencius", "Laozi", "Zhuangzi"],
     answer: 2,
-    explanation: "Laozi (6th century BC) authored the Tao Te Ching, the cornerstone of Taoism."
+    explanation: "Laozi (6th century BC) is the legendary author of the Tao Te Ching, the cornerstone of Taoist philosophy."
   },
   {
     cat: "chinese", difficulty: "medium",
-    question: "The Confucian virtue of 'Ren (仁)' means:",
-    options: ["Ritual (Li)", "Benevolence / Humaneness", "Righteousness (Yi)", "Wisdom (Zhi)"],
+    question: "Confucius placed supreme importance on which virtue, meaning 'benevolence' or 'humaneness'?",
+    options: ["Li (礼)", "Ren (仁)", "Yi (义)", "Zhi (智)"],
     answer: 1,
-    explanation: "Ren is the highest Confucian virtue — loving others and acting with humanity."
+    explanation: "Ren (仁), often translated as benevolence or humaneness, is the central virtue in Confucian ethics."
   },
   {
     cat: "chinese", difficulty: "medium",
-    question: "The Taoist idea 'Wu Wei' means:",
-    options: ["Complete stillness", "Effortless action with nature", "Rigid rule-following", "Passive resistance"],
+    question: "In Taoism, 'Wu Wei' literally means 'non-action' and represents:",
+    options: ["Complete inactivity", "Effortless action aligned with nature", "Rigid rule-following", "Passive resistance"],
     answer: 1,
-    explanation: "Wu Wei — act in harmony with the natural flow, without forcing or straining."
-  },
-  {
-    cat: "chinese", difficulty: "easy",
-    question: "'The Art of War', blending military strategy with philosophy, was written by:",
-    options: ["Confucius", "Sun Tzu", "Laozi", "Mencius"],
-    answer: 1,
-    explanation: "Sun Tzu (~5th century BC) wrote this timeless guide to strategy and wisdom."
+    explanation: "Wu Wei means acting in harmony with the natural flow of the universe — not forcing, but flowing."
   },
   {
     cat: "chinese", difficulty: "hard",
-    question: "Mencius believed human nature is fundamentally:",
-    options: ["Evil, needing strict control", "Good, needing cultivation", "Neutral, shaped by society", "A mystery"],
+    question: "The Zen Buddhist concept of sudden enlightenment through paradoxical riddles is called:",
+    options: ["Satori", "Koan", "Zazen", "Mondo"],
     answer: 1,
-    explanation: "Mencius: humans are born good — moral failure comes from neglecting that goodness."
+    explanation: "Koans are paradoxical anecdotes used in Rinzai Zen to break conceptual thinking and trigger enlightenment."
+  },
+  {
+    cat: "chinese", difficulty: "easy",
+    question: "Which Chinese philosopher wrote 'The Art of War', blending military strategy with philosophical wisdom?",
+    options: ["Confucius", "Sun Tzu", "Laozi", "Mencius"],
+    answer: 1,
+    explanation: "'The Art of War' by Sun Tzu (~5th century BC) is both a military treatise and a philosophical guide to strategy."
+  },
+  {
+    cat: "chinese", difficulty: "hard",
+    question: "Mencius, the successor to Confucius, argued that human nature is fundamentally:",
+    options: ["Evil, requiring strict rules", "Good, needing cultivation", "Neutral, shaped by environment", "Unknowable"],
+    answer: 1,
+    explanation: "Mencius held that humans are born good and that moral failure comes from neglecting this innate goodness."
+  },
+  {
+    cat: "chinese", difficulty: "medium",
+    question: "Zhuangzi's famous 'Butterfly Dream' questions the nature of:",
+    options: ["Time and memory", "Identity and reality", "Good and evil", "Life and death"],
+    answer: 1,
+    explanation: "Zhuangzi dreamed he was a butterfly and pondered: was he a man who dreamed of being a butterfly, or vice versa?"
   },
 
-  // ── IDENTIFY THE PHILOSOPHER ─────────────────────
+
+  // IDENTIFY THE PHILOSOPHER  
+
   {
     cat: "identify", difficulty: "easy",
     type: "identify",
-    emoji: "🏛️",
-    hint: "Ancient Greece • 'Know thyself' • Died by hemlock • 470–399 BC",
-    // ── IMAGE: uncomment the line below and set your image path ──
-    // imageSrc: "images/socrates.jpg",
-    question: "He never wrote anything. His student Plato recorded all his ideas. He was executed in Athens for 'corrupting youth'. Who is he?",
+    philosopherEmoji: "🏛️",
+    philosopherHint: "Ancient Greek • 'Know thyself' • Executed by hemlock in 399 BC",
+     imageSrc: "sukrat.jpg",
+    question: "This ancient Greek philosopher believed in questioning everything and never wrote a single word. His student Plato documented his teachings. Who is he?",
     options: ["Plato", "Socrates", "Diogenes", "Heraclitus"],
     answer: 1,
-    explanation: "Socrates invented the method of dialogue-based thinking we still call the 'Socratic method'."
+    explanation: "Socrates' method of questioning (the Socratic Method) laid the groundwork for critical thinking."
   },
   {
     cat: "identify", difficulty: "medium",
     type: "identify",
-    emoji: "🌿",
-    hint: "Germany • 'God is dead' • 1844–1900 • Beyond Good and Evil",
-    // ── IMAGE: uncomment the line below and set your image path ──
-    // imageSrc: "images/nietzsche.jpg",
-    question: "This German philosopher declared 'God is dead', invented the Übermensch, and went mad in his final years. Who?",
-    options: ["Karl Marx", "Schopenhauer", "Friedrich Nietzsche", "Hegel"],
+    philosopherEmoji: "🌿",
+    philosopherHint: "German • 'God is dead' • Works: Beyond Good and Evil, Zarathustra • 1844–1900",
+     imageSrc: "Fedrich.jpg",
+    question: "This German philosopher championed the 'will to power,' critiqued Christian morality, and envisioned the Übermensch. Who is he?",
+    options: ["Karl Marx", "Arthur Schopenhauer", "Friedrich Nietzsche", "Georg Hegel"],
     answer: 2,
-    explanation: "Nietzsche's ideas on power, morality and culture changed modern philosophy forever."
+    explanation: "Nietzsche's radical ideas about morality, religion, and human potential made him one of the most influential modern philosophers."
   },
   {
     cat: "identify", difficulty: "medium",
     type: "identify",
-    emoji: "🪷",
-    hint: "Ancient India • Born a prince • Enlightened under Bodhi tree • ~563–483 BC",
-    // ── IMAGE: uncomment the line below and set your image path ──
-    // imageSrc: "images/buddha.jpg",
-    question: "He was born a prince, gave up all wealth after seeing suffering, and founded one of the world's great philosophical traditions. Who?",
-    options: ["Mahavira", "Siddhartha Gautama", "Shankaracharya", "Nagarjuna"],
+    philosopherEmoji: "🪷",
+    philosopherHint: "Ancient India • Born prince • Attained enlightenment under Bodhi tree • ~563–483 BC",
+     imageSrc: "buddha.jpg",
+    question: "Born into royalty, this thinker abandoned wealth after witnessing suffering, meditated for years, and founded one of the world's great philosophical traditions. Who?",
+    options: ["Mahavira", "Siddhartha Gautama", "Adi Shankaracharya", "Nagarjuna"],
     answer: 1,
-    explanation: "Siddhartha became the Buddha ('the Awakened One') and taught the path to end suffering."
+    explanation: "Siddhartha Gautama became the Buddha ('the Awakened One') and taught the Dharma, founding Buddhism."
   },
   {
     cat: "identify", difficulty: "hard",
     type: "identify",
-    emoji: "📜",
-    hint: "Ancient China • Analects • Filial piety • 551–479 BC",
-    // ── IMAGE: uncomment the line below and set your image path ──
-    // imageSrc: "images/confucius.jpg",
-    question: "This Chinese thinker believed good governance flows from personal virtue, and shaped East Asian culture for thousands of years. Who?",
+    philosopherEmoji: "📜",
+    philosopherHint: "Ancient China • Virtue-based governance • The Analects • 551–479 BC",
+     imageSrc: "confucisas.jpg",
+    question: "This Chinese thinker emphasized social harmony, filial piety, and virtuous governance. His teachings shaped East Asian civilizations for millennia. Who is he?",
     options: ["Laozi", "Mencius", "Confucius", "Mozi"],
     answer: 2,
-    explanation: "Confucius' ethical teachings, recorded in the Analects, became the foundation of Chinese society."
+    explanation: "Confucius' social and ethical philosophy, recorded in the Analects, profoundly shaped Chinese culture."
   },
   {
     cat: "identify", difficulty: "hard",
     type: "identify",
-    emoji: "🦋",
-    hint: "Taoist master • China • Dream of being a butterfly • ~369–286 BC",
-    // ── IMAGE: uncomment the line below and set your image path ──
-    // imageSrc: "images/zhuangzi.jpg",
-    question: "This philosopher dreamed he was a butterfly, then woke and wondered — was he a man who dreamed of a butterfly, or a butterfly dreaming of being a man?",
+    philosopherEmoji: "🦋",
+    philosopherHint: "Taoist master • Dream of being a butterfly • Relativism • ~369–286 BC",
+    imageSrc: "zhuangji.jpg",
+    question: "This Taoist philosopher once dreamt he was a butterfly and questioned whether he was a man dreaming of being a butterfly, or vice versa. Who?",
     options: ["Laozi", "Zhuangzi", "Han Fei", "Xunzi"],
     answer: 1,
-    explanation: "Zhuangzi's Butterfly Dream is one of philosophy's greatest meditations on identity."
+    explanation: "Zhuangzi's 'Butterfly Dream' is one of philosophy's most famous meditations on identity and reality."
   },
 
-  // ── ETHICS ───────────────────────────────────────
+
+  // ETHICS  
+
   {
     cat: "ethics", difficulty: "easy",
-    question: "The theory that the right action is whatever produces the most happiness is called:",
-    options: ["Deontology", "Utilitarianism", "Virtue Ethics", "Nihilism"],
+    question: "Utilitarianism, the ethical theory that actions are right if they maximize happiness, was developed by:",
+    options: ["Immanuel Kant", "John Stuart Mill", "Aristotle", "David Hume"],
     answer: 1,
-    explanation: "Utilitarianism (developed by Bentham and Mill) judges actions by their outcomes."
+    explanation: "John Stuart Mill refined Jeremy Bentham's utilitarianism in his 1863 work 'Utilitarianism.'"
   },
   {
     cat: "ethics", difficulty: "medium",
-    question: "Aristotle's 'Eudaimonia' is best translated as:",
-    options: ["Pleasure", "Duty", "Flourishing / well-being", "Justice"],
+    question: "Aristotle's concept of 'Eudaimonia' is best translated as:",
+    options: ["Pleasure", "Duty", "Flourishing / happiness", "Virtue"],
     answer: 2,
-    explanation: "Eudaimonia is the highest human good — living and doing well through virtuous action."
+    explanation: "Eudaimonia — the highest human good — means a life well-lived through virtuous activity, not mere pleasure."
   },
   {
     cat: "ethics", difficulty: "medium",
-    question: "John Rawls' fairness test — imagining you don't know your place in society — is called:",
+    question: "John Rawls' theory of justice uses a thought experiment called:",
     options: ["The Trolley Problem", "The Veil of Ignorance", "The Prisoner's Dilemma", "The Original Position"],
     answer: 1,
-    explanation: "Rawls' Veil of Ignorance (1971): design a fair society without knowing your role in it."
+    explanation: "The Veil of Ignorance (from 'A Theory of Justice', 1971) asks us to choose principles without knowing our place in society."
   },
   {
     cat: "ethics", difficulty: "hard",
-    question: "Which theory judges actions purely by their consequences, not intentions?",
-    options: ["Deontology", "Virtue Ethics", "Consequentialism", "Divine Command"],
+    question: "Which ethical theory holds that the morality of an action depends entirely on its consequences?",
+    options: ["Deontology", "Virtue Ethics", "Consequentialism", "Divine Command Theory"],
     answer: 2,
-    explanation: "Consequentialism: the ends can justify the means — only outcomes matter."
+    explanation: "Consequentialism judges actions solely by their outcomes — the ends can justify the means."
   },
 
-  // ── METAPHYSICS ───────────────────────────────────
+
+  // METAPHYSICS  
+
   {
     cat: "metaphysics", difficulty: "medium",
-    question: "Plato's Theory of Forms says the physical world is:",
-    options: ["The only true reality", "A perfect reflection of ideas", "A shadow of perfect eternal Forms", "A divine illusion"],
+    question: "Plato's 'Theory of Forms' suggests that the physical world is:",
+    options: ["The only true reality", "A perfect reflection of ideas", "A mere shadow of the world of perfect Forms", "An illusion created by the gods"],
     answer: 2,
-    explanation: "For Plato, material things are imperfect copies of perfect, eternal Forms."
+    explanation: "For Plato, the material world is an imperfect copy of the perfect, eternal realm of Forms (Ideas)."
   },
   {
     cat: "metaphysics", difficulty: "medium",
-    question: "In Hindu philosophy, 'Maya' refers to:",
-    options: ["The universal soul", "Cosmic illusion hiding true reality", "Sacred rituals", "Time cycles"],
+    question: "In Hindu philosophy, the concept of 'Maya' refers to:",
+    options: ["The universal soul", "Illusion — the veil hiding true reality", "Sacred ritual", "Cosmic time cycles"],
     answer: 1,
-    explanation: "Maya is the illusion that makes the physical world seem ultimate, hiding Brahman."
+    explanation: "Maya is the cosmic illusion that makes the phenomenal world appear as ultimate reality, veiling Brahman."
   },
   {
     cat: "metaphysics", difficulty: "hard",
-    question: "Leibniz called the fundamental units of reality (non-physical, mind-like) his:",
+    question: "Leibniz proposed that the universe is made of fundamental, indivisible units of consciousness called:",
     options: ["Atoms", "Qualia", "Monads", "Phenomena"],
     answer: 2,
-    explanation: "Leibniz's Monadology (1714): the universe is made of windowless, conscious monads."
+    explanation: "Leibniz's Monadology (1714) described monads as ultimate elements of the universe — non-spatial, conscious units."
+  },
+  {
+    cat: "metaphysics", difficulty: "hard",
+    question: "Heidegger's fundamental question 'Why is there something rather than nothing?' explores:",
+    options: ["Ethics of existence", "The question of Being (Seinsfrage)", "Linguistic philosophy", "Political theory"],
+    answer: 1,
+    explanation: "The Seinsfrage (question of Being) is the central concern of Heidegger's 'Being and Time' (1927)."
   }
 
 ];
 
 
-// ============================================================
-//  GAME SETTINGS
-// ============================================================
-var TIME_LIMIT  = { easy: 40, medium: 30, hard: 20 };
-var BASE_POINTS = { easy: 80, medium: 100, hard: 150 };
-// Bonus points for keeping a streak (index = streak count)
-var STREAK_BONUS = [0, 0, 20, 40, 60, 100];
+// GAME STATE
+
+const state = {
+  questions: [],
+  current: 0,
+  score: 0,
+  streak: 0,
+  maxStreak: 0,
+  correct: 0,
+  answered: false,
+  timer: null,
+  timeLeft: 30,
+  timeTotal: 30,
+  selectedCat: 'all',
+  selectedDiff: 'medium',
+  userAnswers: [],
+  difficulty: 'medium'
+};
+
+const TIME_BY_DIFF   = { easy: 40, medium: 30, hard: 20 };
+const POINTS_BY_DIFF = { easy: 80, medium: 100, hard: 150 };
+const STREAK_BONUS   = [0, 0, 20, 40, 60, 100]; // bonus at streak 0–5+
 
 
-// ============================================================
-//  GAME STATE  (simple variables, easy to read)
-// ============================================================
-var pool       = [];   // questions for this game session
-var qIndex     = 0;    // current question number
-var score      = 0;
-var streak     = 0;
-var bestStreak = 0;
-var correct    = 0;
-var answered   = false;
-var timer      = null;
-var timeLeft   = 30;
-var timeTotal  = 30;
-var userLog    = [];   // stores { question, chosen, isCorrect }
-var selCat     = "all";
-var selDiff    = "medium";
+// DOM HELPERS
+
+const $ = id => document.getElementById(id);
+
+const startScreen    = $('startScreen');
+const gameScreen     = $('gameScreen');
+const gameoverScreen = $('gameoverScreen');
 
 
-// ============================================================
-//  SHORTCUT: get element by id
-// ============================================================
-function el(id) { return document.getElementById(id); }
+// SCREEN TRANSITIONS
 
-
-// ============================================================
-//  SHOW / HIDE SCREENS
-// ============================================================
 function showScreen(id) {
-  // hide all screens
-  document.querySelectorAll(".screen").forEach(function(s) {
-    s.classList.remove("active");
-  });
-  // show the target screen (re-trigger animation)
-  var target = el(id);
-  target.classList.add("active");
-  target.style.animation = "none";
-  target.offsetHeight;           // force browser reflow
-  target.style.animation = "";
+  [startScreen, gameScreen, gameoverScreen].forEach(s => s.classList.remove('active'));
+  const target = $(id);
+  target.classList.add('active');
+  // Re-trigger animation
+  target.style.animation = 'none';
+  target.offsetHeight; // reflow
+  target.style.animation = '';
 }
 
 
-// ============================================================
-//  CATEGORY PILLS — click to select
-// ============================================================
-document.querySelectorAll(".pill").forEach(function(pill) {
-  pill.addEventListener("click", function() {
-    document.querySelectorAll(".pill").forEach(function(p) { p.classList.remove("active"); });
-    pill.classList.add("active");
-    selCat = pill.dataset.cat;
+// CATEGORY PILLS
+
+document.querySelectorAll('.cat-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('selected'));
+    pill.classList.add('selected');
+    state.selectedCat = pill.dataset.cat;
+  });
+});
+
+document.querySelectorAll('.diff-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.selectedDiff = btn.dataset.diff;
   });
 });
 
 
-// ============================================================
-//  DIFFICULTY BUTTONS — click to select
-// ============================================================
-document.querySelectorAll(".diff").forEach(function(btn) {
-  btn.addEventListener("click", function() {
-    document.querySelectorAll(".diff").forEach(function(b) { b.classList.remove("active"); });
-    btn.classList.add("active");
-    selDiff = btn.dataset.diff;
-  });
-});
+// START GAME
 
-
-// ============================================================
-//  START GAME
-// ============================================================
-el("startBtn").addEventListener("click", startGame);
+$('startBtn').addEventListener('click', startGame);
 
 function startGame() {
-  // Filter questions by chosen category and difficulty
-  pool = questions.filter(function(q) {
-    var catOk  = (selCat === "all") || (q.cat === selCat);
-    var diffOk = (selDiff === "all") || (q.difficulty === selDiff);
+ 
+  let pool = ALL_QUESTIONS.filter(q => {
+    const catOk  = state.selectedCat === 'all' || q.cat === state.selectedCat;
+    const diffOk = state.selectedDiff === 'all' || q.difficulty === state.selectedDiff;
     return catOk && diffOk;
   });
 
-  // If we got too few questions, drop the difficulty filter
+ 
   if (pool.length < 5) {
-    pool = questions.filter(function(q) {
-      return (selCat === "all") || (q.cat === selCat);
-    });
+    pool = ALL_QUESTIONS.filter(q =>
+      state.selectedCat === 'all' || q.cat === state.selectedCat
+    );
   }
-  // Last resort — use all questions
-  if (pool.length < 5) pool = questions.slice();
+  if (pool.length < 5) pool = [...ALL_QUESTIONS];
 
-  // Shuffle and take 10
-  pool = shuffle(pool).slice(0, 10);
+  state.questions  = shuffle(pool).slice(0, 10);
+  state.current    = 0;
+  state.score      = 0;
+  state.streak     = 0;
+  state.maxStreak  = 0;
+  state.correct    = 0;
+  state.userAnswers = [];
+  state.difficulty  = state.selectedDiff;
 
-  // Reset state
-  qIndex     = 0;
-  score      = 0;
-  streak     = 0;
-  bestStreak = 0;
-  correct    = 0;
-  userLog    = [];
-
-  showScreen("gameScreen");
+  showScreen('gameScreen');
   loadQuestion();
 }
 
 
-// ============================================================
-//  LOAD A QUESTION
-// ============================================================
-function loadQuestion() {
-  var q = pool[qIndex];
-  answered = false;
+// LOAD QUESTION
 
-  // Update HUD
-  el("scoreVal").textContent = score;
+function loadQuestion() {
+  const q = state.questions[state.current];
+  state.answered = false;
+
+  // HUD update
+  $('scoreDisplay').textContent = state.score;
   updateStreak();
   updateProgress();
 
-  // Reset timer
-  clearInterval(timer);
-  timeTotal = TIME_LIMIT[selDiff] || 30;
-  timeLeft  = timeTotal;
-  el("timerNum").textContent = timeLeft;
-  updateTimerRing();
-  timer = setInterval(tickTimer, 1000);
+  // Timer
+  state.timeTotal = TIME_BY_DIFF[state.difficulty] || 30;
+  state.timeLeft  = state.timeTotal;
+  $('timerDisplay').textContent = state.timeLeft;
+  updateTimerCircle();
+  clearInterval(state.timer);
+  state.timer = setInterval(tickTimer, 1000);
 
   // Badges
-  el("qNum").textContent = "📚 Q" + (qIndex + 1);
-  var catName = {
-    western:    "🏛️ Western",
-    indian:     "🪷 Indian",
-    chinese:    "🀄 Chinese",
-    identify:   "🔍 Identify",
-    ethics:     "⚖️ Ethics",
-    metaphysics:"🌌 Metaphysics"
+  $('qBadge').textContent = `📚 Q${state.current + 1}`;
+  const catLabels = {
+    western:    '🏛️ Western',
+    indian:     '🪷 Indian',
+    chinese:    '🀄 Chinese',
+    identify:   '🔍 Identify',
+    ethics:     '⚖️ Ethics',
+    metaphysics:'🌌 Metaphysics'
   };
-  el("qCat").textContent = catName[q.cat] || "🌍 Philosophy";
+  $('qCatBadge').textContent = catLabels[q.cat] || '🌍 Philosophy';
 
-  // ── PHILOSOPHER CARD (only for "identify" questions) ──────
-  var philCard    = el("philCard");
-  var philImgWrap = el("philImgWrap");
-  var philHint    = el("philHint");
-
-  if (q.type === "identify") {
-    philCard.classList.remove("hidden");
-    philHint.textContent = q.hint || "Who is this philosopher?";
-
-    // Clear previous content
-    philImgWrap.innerHTML = "";
-
+  // Philosopher card 
+  const card = $('philosopherCard');
+  if (q.type === 'identify') {
+    card.classList.add('visible');
+    const imgWrap = $('philosopherImg');
     if (q.imageSrc) {
-      // ── REAL IMAGE PATH is set on this question ────────────
-      // This is where your Pinterest/Google image appears!
-      // The image fills the round circle in the card.
-      var img = document.createElement("img");
-      img.src = q.imageSrc;
-      img.alt = "philosopher";
-      philImgWrap.appendChild(img);
-      // ─────────────────────────────────────────────────────
+      imgWrap.className = '';
+      imgWrap.innerHTML = `<img src="${q.imageSrc}" alt="philosopher" class="philosopher-img">`;
     } else {
-      // No image → show animated emoji blob instead
-      var blob = document.createElement("div");
-      blob.className   = "emoji-blob";
-      blob.textContent = q.emoji || "❓";
-      philImgWrap.appendChild(blob);
+      imgWrap.className = 'mystery-blob';
+      imgWrap.textContent = q.philosopherEmoji || '❓';
     }
+    $('philosopherHint').textContent = q.philosopherHint || 'Who is this great thinker?';
   } else {
-    philCard.classList.add("hidden");
+    card.classList.remove('visible');
   }
-  // ─────────────────────────────────────────────────────────
 
   // Question text
-  el("qText").textContent = q.question;
+  $('questionText').textContent = q.question;
 
-  // Build answer buttons
-  var optionsEl = el("options");
-  optionsEl.innerHTML = "";
-  var letters = ["A", "B", "C", "D"];
-
-  q.options.forEach(function(opt, i) {
-    var btn = document.createElement("button");
-    btn.className = "opt-btn";
-    btn.innerHTML =
-      '<span class="opt-letter">' + letters[i] + '</span>' +
-      '<span>' + opt + '</span>';
-
-    // Stagger the appearance of each button
-    btn.style.opacity   = "0";
-    btn.style.transform = "translateY(16px)";
-    btn.style.transition = "opacity 0.35s ease " + (i * 0.07) + "s, transform 0.35s ease " + (i * 0.07) + "s";
-
-    btn.addEventListener("click", function() { selectAnswer(i, btn); });
-    optionsEl.appendChild(btn);
-
-    // Trigger animation
-    requestAnimationFrame(function() {
-      btn.style.opacity   = "1";
-      btn.style.transform = "translateY(0)";
+  // Options
+  const grid = $('optionsGrid');
+  grid.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+    btn.addEventListener('click', () => selectAnswer(i, btn));
+    // Stagger reveal
+    btn.style.opacity   = '0';
+    btn.style.transform = 'translateY(20px)';
+    btn.style.transition = `all 0.4s ease ${i * 0.08}s`;
+    grid.appendChild(btn);
+    requestAnimationFrame(() => {
+      btn.style.opacity   = '1';
+      btn.style.transform = 'translateY(0)';
     });
   });
 
-  // Hide feedback and next button
-  el("feedback").className = "feedback hidden";
-  el("nextBtn").className  = "btn-next hidden";
+  // Hide feedback & next button
+  $('feedbackBar').className = 'feedback-bar';
+  $('nextBtn').className     = 'next-btn';
 }
 
-
-// ============================================================
-//  TIMER
-// ============================================================
+// =========================================
+// TIMER
+// =========================================
 function tickTimer() {
-  timeLeft--;
-  el("timerNum").textContent = timeLeft;
-  updateTimerRing();
-  if (timeLeft <= 0) {
-    clearInterval(timer);
-    handleTimeout();
+  state.timeLeft--;
+  $('timerDisplay').textContent = state.timeLeft;
+  updateTimerCircle();
+  if (state.timeLeft <= 0) {
+    clearInterval(state.timer);
+    timeOut();
   }
 }
 
-function updateTimerRing() {
-  var circumference = 125;
-  var fraction = timeLeft / timeTotal;
-  el("ringCircle").style.strokeDashoffset = circumference * (1 - fraction);
-  // Change color as time runs low
-  if (timeLeft > 10)      el("ringCircle").style.stroke = "var(--yellow)";
-  else if (timeLeft > 5)  el("ringCircle").style.stroke = "var(--pink)";
-  else                    el("ringCircle").style.stroke = "var(--red)";
+function updateTimerCircle() {
+  const circumference = 138;
+  const fraction = state.timeLeft / state.timeTotal;
+  $('timerCircle').style.strokeDashoffset = circumference * (1 - fraction);
+  $('timerCircle').style.stroke =
+    state.timeLeft > 10 ? 'var(--yellow)' :
+    state.timeLeft > 5  ? 'var(--pink)'   : 'var(--red)';
 }
 
-function handleTimeout() {
-  if (answered) return;
-  answered = true;
+function timeOut() {
+  if (state.answered) return;
+  state.answered = true;
+  const q = state.questions[state.current];
+  const btns = $('optionsGrid').querySelectorAll('.option-btn');
+  btns[q.answer].classList.add('correct');
+  btns.forEach(b => b.disabled = true);
 
-  var q    = pool[qIndex];
-  var btns = el("options").querySelectorAll(".opt-btn");
-  btns[q.answer].classList.add("correct");
-  btns.forEach(function(b) { b.disabled = true; });
-
-  streak = 0;
+  state.streak = 0;
   updateStreak();
-  userLog.push({ q: q, chosen: -1, isCorrect: false });
-  showFeedback("timeout", "⏰ Time's up!", "Correct: " + q.options[q.answer] + " • " + q.explanation);
+  state.userAnswers.push({ q, chosen: -1, correct: false });
+  showFeedback(false, "⏰ Time's up!", `The answer was: ${q.options[q.answer]}`, q.explanation);
   showNextBtn();
 }
 
+// SELECT ANSWER
 
-// ============================================================
-//  SELECT AN ANSWER
-// ============================================================
-function selectAnswer(index, clickedBtn) {
-  if (answered) return;
-  answered = true;
-  clearInterval(timer);
+function selectAnswer(index, btn) {
+  if (state.answered) return;
+  state.answered = true;
+  clearInterval(state.timer);
 
-  var q    = pool[qIndex];
-  var btns = el("options").querySelectorAll(".opt-btn");
+  const q    = state.questions[state.current];
+  const btns = $('optionsGrid').querySelectorAll('.option-btn');
 
-  // Disable all buttons
-  btns.forEach(function(b) { b.disabled = true; b.classList.add("faded"); });
-  clickedBtn.classList.remove("faded");
+  btns.forEach(b => { b.disabled = true; b.classList.add('disabled-fade'); });
+  btn.classList.remove('disabled-fade');
 
-  var isCorrect = (index === q.answer);
+  const isCorrect = index === q.answer;
 
   if (isCorrect) {
-    clickedBtn.classList.add("correct");
-    streak++;
-    correct++;
-    if (streak > bestStreak) bestStreak = streak;
+    btn.classList.add('correct');
+    state.streak++;
+    state.correct++;
+    if (state.streak > state.maxStreak) state.maxStreak = state.streak;
 
-    // Calculate points
-    var base    = BASE_POINTS[selDiff] || 100;
-    var timePts = Math.floor(timeLeft * 2);
-    var bonusPts= STREAK_BONUS[Math.min(streak, 5)];
-    var total   = base + timePts + bonusPts;
-    score += total;
-    el("scoreVal").textContent = score;
+    const basePoints  = POINTS_BY_DIFF[state.difficulty] || 100;
+    const timeBonus   = Math.floor(state.timeLeft * 2);
+    const streakBonus = STREAK_BONUS[Math.min(state.streak, 5)];
+    const total       = basePoints + timeBonus + streakBonus;
+    state.score += total;
+    $('scoreDisplay').textContent = state.score;
 
-    if (streak >= 2) showCombo(streak);
+    if (state.streak >= 2) showComboToast(state.streak);
     launchConfetti(6);
-    showFeedback("correct", pickCorrectMsg(), "+" + total + " pts • " + q.explanation);
-
+    showFeedback(true, randomCorrectMsg(),
+      `+${total} pts (Base ${basePoints} + Time ${timeBonus} + Streak ${streakBonus})`,
+      q.explanation);
   } else {
-    clickedBtn.classList.add("wrong");
-    btns[q.answer].classList.remove("faded");
-    btns[q.answer].classList.add("correct");
-    streak = 0;
-    showFeedback("wrong", pickWrongMsg(), "Answer: " + q.options[q.answer] + " • " + q.explanation);
+    btn.classList.add('wrong');
+    btns[q.answer].classList.remove('disabled-fade');
+    btns[q.answer].classList.add('correct');
+    state.streak = 0;
+    showFeedback(false, randomWrongMsg(), `The answer was: ${q.options[q.answer]}`, q.explanation);
   }
 
   updateStreak();
-  userLog.push({ q: q, chosen: index, isCorrect: isCorrect });
+  state.userAnswers.push({ q, chosen: index, correct: isCorrect });
   showNextBtn();
 }
 
 
-// ============================================================
-//  PROGRESS BAR & STREAK DOTS
-// ============================================================
+// PROGRESS & STREAK
+
 function updateProgress() {
-  var total = pool.length;
-  var pct   = Math.round((qIndex / total) * 100);
-  el("progFill").style.width  = pct + "%";
-  el("progLabel").textContent = "Q" + (qIndex + 1) + " of " + total;
-  el("progPct").textContent   = pct + "%";
+  const total = state.questions.length;
+  const pct   = Math.round((state.current / total) * 100);
+  $('progressBar').style.width      = pct + '%';
+  $('qProgress').textContent        = `Question ${state.current + 1} of ${total}`;
+  $('qPercent').textContent         = pct + '%';
 }
 
 function updateStreak() {
-  for (var i = 0; i < 5; i++) {
-    var dot = el("d" + i);
-    if (i < streak) dot.classList.add("on");
-    else             dot.classList.remove("on");
+  for (let i = 0; i < 5; i++) {
+    const dot = $('sd' + i);
+    if (i < state.streak) dot.classList.add('lit');
+    else                   dot.classList.remove('lit');
   }
 }
 
 
-// ============================================================
-//  FEEDBACK BAR
-// ============================================================
-function showFeedback(type, title, sub) {
-  var fb = el("feedback");
-  fb.className  = "feedback " + type;
-  el("fbEmoji").textContent = type === "correct" ? "🎉" : type === "wrong" ? "💡" : "⏰";
-  el("fbTitle").textContent = title;
-  el("fbSub").textContent   = sub;
+// FEEDBACK
+
+function showFeedback(correct, title, sub, explanation) {
+  const bar = $('feedbackBar');
+  bar.className            = 'feedback-bar show ' + (correct ? 'correct-fb' : 'wrong-fb');
+  $('feedbackEmoji').textContent = correct ? '🎉' : '💡';
+  $('feedbackText').textContent  = title;
+  $('feedbackSub').textContent   = sub + (explanation ? ` • ${explanation}` : '');
 }
 
 function showNextBtn() {
-  var btn = el("nextBtn");
-  btn.className   = "btn-next";
-  btn.textContent = (qIndex + 1 >= pool.length) ? "See Results 🎯" : "Next Question →";
+  const nb   = $('nextBtn');
+  nb.className = 'next-btn visible';
+  nb.textContent = (state.current + 1 >= state.questions.length)
+    ? 'See Results 🎯'
+    : 'Next Question →';
 }
 
-el("nextBtn").addEventListener("click", function() {
-  qIndex++;
-  if (qIndex >= pool.length) showResults();
+$('nextBtn').addEventListener('click', () => {
+  state.current++;
+  if (state.current >= state.questions.length) showResults();
   else loadQuestion();
 });
 
 
-// ============================================================
-//  COMBO TOAST
-// ============================================================
-function showCombo(n) {
-  el("comboNum").textContent = n;
-  el("comboToast").classList.add("show");
-  setTimeout(function() { el("comboToast").classList.remove("show"); }, 2000);
+// COMBO TOAST
+
+function showComboToast(streak) {
+  const toast = $('comboToast');
+  $('comboNum').textContent = streak;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
 }
 
 
-// ============================================================
-//  CONFETTI
-// ============================================================
+// CONFETTI
+
 function launchConfetti(count) {
-  var colors = ["#7c3aed","#ec4899","#fbbf24","#22c55e","#3b82f6","#f97316"];
-  var box    = el("confetti");
-  for (var i = 0; i < count; i++) {
-    var p = document.createElement("div");
-    p.className              = "c-piece";
-    p.style.left             = Math.random() * 100 + "vw";
-    p.style.width            = (7 + Math.random() * 9) + "px";
-    p.style.height           = (7 + Math.random() * 9) + "px";
-    p.style.background       = colors[Math.floor(Math.random() * colors.length)];
-    p.style.borderRadius     = Math.random() > 0.5 ? "50%" : "3px";
-    p.style.animationDuration= (1.5 + Math.random() * 2) + "s";
-    p.style.animationDelay   = Math.random() * 0.5 + "s";
-    box.appendChild(p);
-    setTimeout(function() { if (p.parentNode) p.parentNode.removeChild(p); }, 4000);
+  const container = $('confettiContainer');
+  const colors    = ['#7c3aed','#ec4899','#fbbf24','#22c55e','#3b82f6','#f97316'];
+  for (let i = 0; i < count; i++) {
+    const piece = document.createElement('div');
+    piece.className              = 'confetti-piece';
+    piece.style.left             = Math.random() * 100 + 'vw';
+    piece.style.background       = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.borderRadius     = Math.random() > 0.5 ? '50%' : '2px';
+    piece.style.width            = (6 + Math.random() * 10) + 'px';
+    piece.style.height           = (6 + Math.random() * 10) + 'px';
+    piece.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    piece.style.animationDelay   = Math.random() * 0.5 + 's';
+    container.appendChild(piece);
+    setTimeout(() => piece.remove(), 4000);
   }
 }
 
 
-// ============================================================
-//  RESULTS SCREEN
-// ============================================================
+// RESULTS SCREEN
+
 function showResults() {
-  clearInterval(timer);
+  clearInterval(state.timer);
+  const total    = state.questions.length;
+  const accuracy = Math.round((state.correct / total) * 100);
 
-  var total    = pool.length;
-  var accuracy = Math.round((correct / total) * 100);
+  $('finalScore').textContent    = state.score;
+  $('finalCorrect').textContent  = `${state.correct}/${total}`;
+  $('finalAccuracy').textContent = accuracy + '%';
 
-  el("stScore").textContent   = score;
-  el("stCorrect").textContent = correct + "/" + total;
-  el("stAcc").textContent     = accuracy + "%";
+  let trophy, title, desc;
+  if      (accuracy >= 90) { trophy = '🏆'; title = 'Grand Philosopher!';  desc = 'Socrates himself would bow!'; }
+  else if (accuracy >= 70) { trophy = '🥇'; title = 'Sage of the Ages';    desc = 'Deep wisdom flows through you!'; }
+  else if (accuracy >= 50) { trophy = '🥈'; title = 'Curious Seeker';      desc = 'The unexamined life is worth examining!'; }
+  else if (accuracy >= 30) { trophy = '🥉'; title = 'The Apprentice';       desc = 'Every philosopher starts somewhere!'; }
+  else                      { trophy = '📜'; title = 'The Initiate';         desc = 'Begin your journey into the examined life!'; }
 
-  // Pick rank based on accuracy
-  var trophy, title, desc;
-  if      (accuracy >= 90) { trophy = "🏆"; title = "Grand Philosopher!";  desc = "Socrates himself would bow!"; }
-  else if (accuracy >= 70) { trophy = "🥇"; title = "Sage of the Ages";    desc = "Deep wisdom flows through you!"; }
-  else if (accuracy >= 50) { trophy = "🥈"; title = "Curious Seeker";      desc = "The unexamined life is worth examining!"; }
-  else if (accuracy >= 30) { trophy = "🥉"; title = "The Apprentice";       desc = "Every philosopher starts somewhere!"; }
-  else                      { trophy = "📜"; title = "The Initiate";         desc = "Begin your journey into the examined life!"; }
+  $('trophyEmoji').textContent    = trophy;
+  $('gameoverTitle').textContent  = title;
+  $('gameoverSub').textContent    = desc;
+  $('rankEmoji').textContent      = trophy;
+  $('rankTitle').textContent      = title;
+  $('rankDesc').textContent       = `Accuracy: ${accuracy}% • Best Streak: ${state.maxStreak}`;
 
-  el("trophyIcon").textContent = trophy;
-  el("overTitle").textContent  = title;
-  el("overSub").textContent    = desc;
-  el("rankEmoji").textContent  = trophy;
-  el("rankTitle").textContent  = title;
-  el("rankDesc").textContent   = "Accuracy: " + accuracy + "% • Best Streak: " + bestStreak;
-
-  // Build review list
-  var list = el("reviewList");
-  list.innerHTML = "";
-  userLog.forEach(function(entry) {
-    var q          = entry.q;
-    var isCorrect  = entry.isCorrect;
-    var chosenText = entry.chosen === -1 ? "Timed out" : q.options[entry.chosen];
-
-    var div = document.createElement("div");
-    div.className = "review-item " + (isCorrect ? "ok" : "bad");
-
-    var answerLine = isCorrect
-      ? 'Your answer: <b style="color:var(--green)">' + chosenText + '</b>'
-      : 'Your answer: <b style="color:var(--red)">' + chosenText + '</b> → Correct: <b style="color:var(--green)">' + q.options[q.answer] + '</b>';
-
-    div.innerHTML =
-      '<span class="review-icon">' + (isCorrect ? "✅" : "❌") + '</span>' +
-      '<div>' +
-        '<p class="review-q">' + q.question.substring(0, 62) + (q.question.length > 62 ? "..." : "") + '</p>' +
-        '<p class="review-a">' + answerLine + '</p>' +
-      '</div>';
-
+  // Answer review list
+  const list = $('reviewList');
+  list.innerHTML = '';
+  state.userAnswers.forEach(({ q, chosen, correct }) => {
+    const div        = document.createElement('div');
+    div.className    = 'review-item ' + (correct ? 'correct-r' : 'wrong-r');
+    const chosenText = chosen === -1 ? 'Time out' : q.options[chosen];
+    div.innerHTML = `
+      <div class="review-icon">${correct ? '✅' : '❌'}</div>
+      <div>
+        <div class="review-q">${q.question.substring(0, 60)}${q.question.length > 60 ? '...' : ''}</div>
+        <div class="review-a">
+          ${correct
+            ? `Your answer: <span style="color:var(--green)">${chosenText}</span>`
+            : `Your answer: <span style="color:var(--red)">${chosenText}</span> • Correct: <span style="color:var(--green)">${q.options[q.answer]}</span>`}
+        </div>
+      </div>`;
     list.appendChild(div);
   });
 
-  showScreen("overScreen");
-  if (accuracy >= 70) launchConfetti(28);
+  showScreen('gameoverScreen');
+  if (accuracy >= 70) launchConfetti(30);
 }
 
 
+// RESTART / HOME
 
-//  RESTART & HOME BUTTONS
-
-el("againBtn").addEventListener("click", startGame);
-el("homeBtn").addEventListener("click", function() { showScreen("startScreen"); });
-
+$('restartBtn').addEventListener('click', startGame);
+$('homeBtn').addEventListener('click', () => showScreen('startScreen'));
 
 
-//  HELPER FUNCTIONS
+// HELPERS
 
 function shuffle(arr) {
-  var a = arr.slice();
-  for (var i = a.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+function randomCorrectMsg() {
+  const msgs = [
+    '🎉 Brilliant! Socrates approves!',
+    '✨ Correct! Your wisdom grows!',
+    '🔥 Outstanding! The Oracle speaks!',
+    '💫 Perfect! You think like a sage!',
+    '⚡ Magnificent! Pure enlightenment!'
+  ];
+  return msgs[Math.floor(Math.random() * msgs.length)];
+}
+
+function randomWrongMsg() {
+  const msgs = [
+    '💭 Not quite! But questioning is wisdom...',
+    '🤔 Even Socrates got stumped sometimes!',
+    '📖 The path to truth has many turns!',
+    '🌱 Learn and grow, young philosopher!',
+    '🔍 Seek deeper — truth awaits!'
+  ];
+  return msgs[Math.floor(Math.random() * msgs.length)];
+}
+
+// Sprinkle twinkling stars in background
+(function spawnStars() {
+  const bg = document.querySelector('.bg-canvas');
+  for (let i = 0; i < 20; i++) {
+    const star = document.createElement('div');
+    star.className             = 'star';
+    star.style.left            = Math.random() * 100 + '%';
+    star.style.top             = Math.random() * 100 + '%';
+    star.style.animationDelay  = Math.random() * 3 + 's';
+    star.style.animationDuration = (2 + Math.random() * 3) + 's';
+    bg.appendChild(star);
   }
-  return a;
-}
-
-function pickCorrectMsg() {
-  var msgs = [
-    "Brilliant! Socrates approves!",
-    "Correct! Your wisdom grows!",
-    "Outstanding! The Oracle speaks!",
-    "Perfect! You think like a sage!",
-    "Magnificent! Pure enlightenment!"
-  ];
-  return msgs[Math.floor(Math.random() * msgs.length)];
-}
-
-function pickWrongMsg() {
-  var msgs = [
-    "Not quite! But questioning is wisdom...",
-    "Even Socrates got stumped sometimes!",
-    "The path to truth has many turns!",
-    "Learn and grow, young philosopher!",
-    "Seek deeper — truth awaits!"
-  ];
-  return msgs[Math.floor(Math.random() * msgs.length)];
-}
+})();
